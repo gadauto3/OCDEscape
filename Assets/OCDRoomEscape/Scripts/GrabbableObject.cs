@@ -59,19 +59,19 @@ public class GrabbableObject : InteractableObject
     }
 
     // This will be called by the Gaze pointer after an object is grabbed. 
-//    public override void PhysicsUpdate()
+    public override void PhysicsUpdate()
+    {
+        if (moveToAnchor || moveToLastPosition) return;
+
+        // anchor.position = gazeAnchor.position;
+    }
+//
+//    public override void LogicUpdate()
 //    {
 //        if (moveToAnchor || moveToLastPosition) return;
 //
 //        anchor.position = gazeAnchor.position;
 //    }
-
-    public override void LogicUpdate()
-    {
-        if (moveToAnchor || moveToLastPosition) return;
-
-        anchor.position = gazeAnchor.position;
-    }
 
     public override bool OnInteract(GazePointer pointer)
     {
@@ -123,7 +123,7 @@ public class GrabbableObject : InteractableObject
 
     protected virtual Quaternion GetMoveToNotGrabbedRotation()
     {
-        return transform.rotation;
+        return lastRotation;
     }
 
     protected virtual IEnumerator MoveToAnchorPosition()
@@ -191,6 +191,11 @@ public class GrabbableObject : InteractableObject
 
                 anchor.position = gazeAnchor.position;
 
+                myRigidbody.isKinematic = true;
+
+                FreeJoint();
+                transform.parent = gazeAnchor;
+
                 // myJoint.linearLimit = new SoftJointLimit();
             }
             else
@@ -205,6 +210,13 @@ public class GrabbableObject : InteractableObject
         moveToLastPosition = true;
 
         // anchor.parent = lastParent;
+
+        transform.parent = lastParent;
+        anchor.position = transform.position;
+
+        myRigidbody.isKinematic = false;
+
+        LimitJoint();
 
         var moveToTargetPos = true;
 
