@@ -97,8 +97,8 @@ public class GazePointer : MonoBehaviour
 
         if (IsClickDown())
         {
-            interacting = false;
-            interactingObject.OffInteract(this, objectToInteractWith);
+//            interacting = false;
+            interacting = !interactingObject.OffInteract(this, objectToInteractWith);
         }
     }
 

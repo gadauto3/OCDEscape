@@ -19,6 +19,8 @@ public class GrabbableObject : InteractableObject
 
     public Vector3 rotationAxis;
 
+    public Vector3 grabbedUpAxis = Vector3.up;
+
     protected GazePointer pointer;
     protected Transform gazeAnchor;
 
@@ -125,6 +127,13 @@ public class GrabbableObject : InteractableObject
             }
         }
 
+        var initRotation = transform.rotation;
+        var targetRotation = Quaternion.identity;
+
+
+        var initDist = Vector3.Distance(anchor.position, gazeAnchor.position);
+
+
         while (moveToAnchor)
         {
             var toAnchor = gazeAnchor.position - anchor.position;
@@ -133,7 +142,17 @@ public class GrabbableObject : InteractableObject
 
             anchor.position += toAnchor.normalized*moveDistance;
 
-            if (Vector3.Distance(anchor.position, gazeAnchor.position) < 0.001f)
+            var dist = Vector3.Distance(anchor.position, gazeAnchor.position);
+
+            var t = dist/Mathf.Max(initDist, float.Epsilon);
+
+
+            var localUp = pointer.transform.InverseTransformDirection(grabbedUpAxis);
+
+
+            transform.rotation = Quaternion.Slerp(targetRotation, initRotation, t);
+
+            if (dist < 0.001f)
             {
                 moveToAnchor = false;
                 // anchor.parent = gazeAnchor;
