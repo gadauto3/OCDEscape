@@ -22,13 +22,11 @@ public class ScribblerSortingPuzzle : MonoBehaviour
 	public void AddScribbler(Scribbler scribbler)
 	{
 		allScribblers.Add(scribbler);
-		Debug.Log("added sc "+scribbler);
 	}
 	
 	public void AddScribblerHolder(ScribblerHolder holder)
 	{
 		allHolders.Add(holder);
-		Debug.Log("added cup "+holder);
 	}
 
 	public void PutInHolder(Scribbler scribbler, ScribblerHolder targetHolder)
