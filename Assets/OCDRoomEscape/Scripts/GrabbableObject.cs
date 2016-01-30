@@ -15,11 +15,11 @@ public class GrabbableObject : InteractableObject
     public float freeDrag = 0f;
     public float grabbedDrag = 10f;
 
-    public Vector3 grabMoveOffset = Vector3.zero; // This is an offset that the object will move to when grabbing before moving to the anchor. 
+//    public Vector3 grabMoveOffset = Vector3.zero; // This is an offset that the object will move to when grabbing before moving to the anchor. 
 
-    public Vector3 rotationAxis;
+//    public Vector3 rotationAxis;
 
-    public Vector3 grabbedUpAxis = Vector3.up;
+//    public Vector3 grabbedUpAxis = Vector3.up;
 
     protected GazePointer pointer;
     protected Transform gazeAnchor;
@@ -74,7 +74,7 @@ public class GrabbableObject : InteractableObject
 //        myRigidbody.isKinematic = false;
 
         StopAllCoroutines();
-        StartCoroutine(MoveToAnchor());
+        StartCoroutine(MoveToAnchorPosition());
 
         return true;
     }
@@ -87,12 +87,32 @@ public class GrabbableObject : InteractableObject
         gazeAnchor = null;
 
         StopAllCoroutines();
-        StartCoroutine(MoveToLastPosition());
+        StartCoroutine(MoveToNotGrabbedPosition());
 
         return true;
     }
 
-    protected IEnumerator MoveToAnchor()
+    protected virtual Vector3 GetMoveToAnchorOffsetPosition()
+    {
+        return anchor.position;
+    }
+
+    protected virtual Vector3 GetMoveToNotGrabbedOffsetPosition()
+    {
+        return lastPosition;
+    }
+
+    protected virtual Vector3 GetMoveToNotGrabbedPosition()
+    {
+        return lastPosition;
+    }
+
+    protected virtual Quaternion GetMoveToNotGrabbedRotation()
+    {
+        return transform.rotation;
+    }
+
+    protected virtual IEnumerator MoveToAnchorPosition()
     {
         moveToAnchor = true;
 
@@ -107,7 +127,7 @@ public class GrabbableObject : InteractableObject
 
         var moveToTargetPos = true;
 
-        var targetPosition = anchor.position + grabMoveOffset;
+        var targetPosition = GetMoveToAnchorOffsetPosition();
 
         while (moveToTargetPos)
         {
@@ -147,10 +167,8 @@ public class GrabbableObject : InteractableObject
             var t = dist/Mathf.Max(initDist, float.Epsilon);
 
 
-            var localUp = pointer.transform.InverseTransformDirection(grabbedUpAxis);
-
-
-            transform.rotation = Quaternion.Slerp(targetRotation, initRotation, t);
+//            var localUp = pointer.transform.InverseTransformDirection(grabbedUpAxis);
+            // transform.rotation = Quaternion.Slerp(targetRotation, initRotation, t);
 
             if (dist < 0.001f)
             {
@@ -168,7 +186,7 @@ public class GrabbableObject : InteractableObject
         }
     }
 
-    protected IEnumerator MoveToLastPosition()
+    protected virtual IEnumerator MoveToNotGrabbedPosition()
     {
         moveToLastPosition = true;
 
@@ -176,7 +194,12 @@ public class GrabbableObject : InteractableObject
 
         var moveToTargetPos = true;
 
-        var targetPosition = lastPosition + grabMoveOffset;
+        var targetPosition = GetMoveToNotGrabbedOffsetPosition();
+
+        var initRotation = transform.rotation;
+        var targetRotation = GetMoveToNotGrabbedRotation();
+
+        var initDist = Vector3.Distance(anchor.position, targetPosition);
 
         while (moveToTargetPos)
         {
@@ -185,6 +208,12 @@ public class GrabbableObject : InteractableObject
             var moveDistance = Mathf.Min(grabSpeed * Time.deltaTime, toTarget.magnitude);
 
             anchor.position += toTarget.normalized * moveDistance;
+
+            // Handle Rotation Slerp
+            var dist = Vector3.Distance(anchor.position, targetPosition);
+            var t = dist / Mathf.Max(initDist, float.Epsilon);
+
+            transform.rotation = Quaternion.Slerp(targetRotation, initRotation, t);
 
             if (Vector3.Distance(anchor.position, targetPosition) < 0.004f)
             {
@@ -196,18 +225,21 @@ public class GrabbableObject : InteractableObject
             }
         }
 
+        targetPosition = GetMoveToNotGrabbedPosition();
+
+
         while (moveToLastPosition)
         {
-            var toTarget = lastPosition - anchor.position;
+            var toTarget = targetPosition - anchor.position;
 
             var moveDistance = Mathf.Min(grabSpeed * Time.deltaTime, toTarget.magnitude);
 
             anchor.position += toTarget.normalized * moveDistance;
 
-            if (Vector3.Distance(anchor.position, lastPosition) < 0.01f)
+            if (Vector3.Distance(anchor.position, targetPosition) < 0.01f)
             {
                 moveToLastPosition = false;
-                anchor.position = lastPosition;
+                anchor.position = targetPosition;
                 // myJoint.linearLimit = new SoftJointLimit();
 
                 FreeJoint();

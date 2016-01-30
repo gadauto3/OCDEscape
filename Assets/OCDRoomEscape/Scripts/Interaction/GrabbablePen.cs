@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GrabbablePen : MonoBehaviour {
+public class GrabbablePen : GrabbableObject {
 
 	// Use this for initialization
 	void Start () {
