@@ -25,6 +25,12 @@ public class GrabbableScribbler : GrabbableObject
         grabbedInteractTag = containerTag;
     }
 
+	void Start()
+	{
+		puzzle = GetComponentInParent<ScribblerSortingPuzzle>();
+		puzzle.AddScribbler(this);
+	}
+
     public override bool OnInteract(GazePointer pointer)
     {
         var interact = base.OnInteract(pointer);
