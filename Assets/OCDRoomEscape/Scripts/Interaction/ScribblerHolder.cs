@@ -6,6 +6,8 @@ public class ScribblerHolder : MonoBehaviour
 {
     public ScribblerSortingPuzzle puzzle;
 
+    public Transform dropPosition;
+
 	List<GrabbableScribbler> scribblers;
 	
 	public void AddScribbler(GrabbableScribbler scribbler)
