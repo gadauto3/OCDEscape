@@ -155,6 +155,28 @@ public class GrabbableObject : InteractableObject
 
         // anchor.parent = lastParent;
 
+        var moveToTargetPos = true;
+
+        var targetPosition = lastPosition + grabMoveOffset;
+
+        while (moveToTargetPos)
+        {
+            var toTarget = targetPosition - anchor.position;
+
+            var moveDistance = Mathf.Min(grabSpeed * Time.deltaTime, toTarget.magnitude);
+
+            anchor.position += toTarget.normalized * moveDistance;
+
+            if (Vector3.Distance(anchor.position, targetPosition) < 0.004f)
+            {
+                moveToTargetPos = false;
+            }
+            else
+            {
+                yield return new WaitForFixedUpdate();
+            }
+        }
+
         while (moveToLastPosition)
         {
             var toTarget = lastPosition - anchor.position;
@@ -178,7 +200,6 @@ public class GrabbableObject : InteractableObject
                 yield return new WaitForFixedUpdate();
             }
         }
-
     }
 
     // This anchor will move around this object
