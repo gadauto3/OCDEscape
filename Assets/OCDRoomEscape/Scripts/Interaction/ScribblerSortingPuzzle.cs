@@ -31,7 +31,11 @@ public class ScribblerSortingPuzzle : MonoBehaviour
 
     public void RemoveFromHolder(GrabbableScribbler scribbler)
     {
-        
+        foreach (var holder in allHolders) {
+        	if (holder.ContainsScribbler(scribbler)) {
+				holder.RemoveScribbler(scribbler);
+			}
+		}
     }
 
 	public void PutInHolder(GrabbableScribbler scribbler, ScribblerHolder targetHolder)

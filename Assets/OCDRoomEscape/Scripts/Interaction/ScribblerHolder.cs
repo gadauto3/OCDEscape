@@ -17,6 +17,11 @@ public class ScribblerHolder : MonoBehaviour
 	{
 		scribblers.Remove(scribbler);
 	}
+	
+	public bool ContainsScribbler(GrabbableScribbler scribbler)
+	{
+		return scribblers.Contains(scribbler);
+	}
 
 	public bool AreAllScribblersOfTheSameType()
 	{
