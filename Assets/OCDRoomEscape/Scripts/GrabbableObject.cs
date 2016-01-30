@@ -59,12 +59,12 @@ public class GrabbableObject : InteractableObject
     }
 
     // This will be called by the Gaze pointer after an object is grabbed. 
-    public override void PhysicsUpdate()
-    {
-        if (moveToAnchor || moveToLastPosition) return;
-
-        // anchor.position = gazeAnchor.position;
-    }
+//    public override void PhysicsUpdate()
+//    {
+//        if (moveToAnchor || moveToLastPosition) return;
+//
+//        // anchor.position = gazeAnchor.position;
+//    }
 //
 //    public override void LogicUpdate()
 //    {

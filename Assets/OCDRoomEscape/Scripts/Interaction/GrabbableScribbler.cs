@@ -25,7 +25,14 @@ public class GrabbableScribbler : GrabbableObject
         grabbedInteractTag = containerTag;
     }
 
-	void Start()
+    public override void LogicUpdate()
+    {
+        if (moveToAnchor || moveToLastPosition) return;
+
+        holder = null;
+    }
+
+    void Start()
 	{
 		puzzle = GetComponentInParent<ScribblerSortingPuzzle>();
 		puzzle.AddScribbler(this);
@@ -43,7 +50,7 @@ public class GrabbableScribbler : GrabbableObject
             }
 
         }
-        holder = null; // We just removed from the holder
+        // holder = null; // We just removed from the holder
 
         return interact;
     }
@@ -79,6 +86,18 @@ public class GrabbableScribbler : GrabbableObject
         else
         {
             return lastRotation;
+        }
+    }
+
+    protected override Vector3 GetMoveToAnchorOffsetPosition()
+    {
+        if (holder)
+        {
+            return holder.dropPosition.position;
+        }
+        else
+        {
+            return transform.position;
         }
     }
 
