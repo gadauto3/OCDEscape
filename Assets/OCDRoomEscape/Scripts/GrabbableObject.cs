@@ -15,6 +15,10 @@ public class GrabbableObject : InteractableObject
     public float freeDrag = 0f;
     public float grabbedDrag = 10f;
 
+    public Vector3 grabMoveOffset = Vector3.zero; // This is an offset that the object will move to when grabbing before moving to the anchor. 
+
+    public Vector3 rotationAxis;
+
     protected GazePointer pointer;
     protected Transform gazeAnchor;
 
@@ -50,6 +54,7 @@ public class GrabbableObject : InteractableObject
 //        myRigidbody.isKinematic = true;
     }
 
+    // This will be called by the Gaze pointer after an object is grabbed. 
     public override void PhysicsUpdate()
     {
         if (moveToAnchor || moveToLastPosition) return;
@@ -98,6 +103,28 @@ public class GrabbableObject : InteractableObject
 
         // myJoint.linearLimit = new SoftJointLimit() {limit = 0.001f};
 
+        var moveToTargetPos = true;
+
+        var targetPosition = anchor.position + grabMoveOffset;
+
+        while (moveToTargetPos)
+        {
+            var toTarget = targetPosition - anchor.position;
+
+            var moveDistance = Mathf.Min(grabSpeed * Time.deltaTime, toTarget.magnitude);
+
+            anchor.position += toTarget.normalized * moveDistance;
+
+            if (Vector3.Distance(anchor.position, targetPosition) < 0.004f)
+            {
+                moveToTargetPos = false;
+            }
+            else
+            {
+                yield return new WaitForFixedUpdate();
+            }
+        }
+
         while (moveToAnchor)
         {
             var toAnchor = gazeAnchor.position - anchor.position;
@@ -141,6 +168,8 @@ public class GrabbableObject : InteractableObject
                 moveToLastPosition = false;
                 anchor.position = lastPosition;
                 // myJoint.linearLimit = new SoftJointLimit();
+
+                FreeJoint();
 
                 myRigidbody.drag = freeDrag;
             }
