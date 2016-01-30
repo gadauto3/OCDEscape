@@ -31,10 +31,16 @@ public class ScribblerSortingPuzzle : MonoBehaviour
 
     public void RemoveFromHolder(GrabbableScribbler scribbler)
     {
+		bool isScribblerFoundInHolders = false;
         foreach (var holder in allHolders) {
         	if (holder.ContainsScribbler(scribbler)) {
 				holder.RemoveScribbler(scribbler);
+				isScribblerFoundInHolders = true;
 			}
+		}
+
+		if (!isScribblerFoundInHolders) {
+			throw new UnityException("You are unexpectedly trying to remove a pen or pencil from a holder when the scribbler was in a holder to begin with");
 		}
     }
 
