@@ -52,7 +52,7 @@ public class ScribblerSortingPuzzle : MonoBehaviour
 		if (NumScribblersInHolders() == allScribblers.Count) {
 			isPuzzleSolved = true; // Flip bool before this for-loop
 			foreach (ScribblerHolder holder in allHolders) {
-				if (holder.AreAllScribblersOfTheSameType()) {
+				if (!holder.AreAllScribblersOfTheSameType()) {
 					isPuzzleSolved = false;
 					break;
 				}

@@ -37,7 +37,7 @@ public class GrabbableScribbler : GrabbableObject
 
         if (interact)
         {
-            if (puzzle)
+            if (puzzle && holder)
             {
                 puzzle.RemoveFromHolder(this);
             }
@@ -54,8 +54,6 @@ public class GrabbableScribbler : GrabbableObject
     {
         if (objectToInteractWith)
         {
-            Debug.Log("Found a scribble holder");
-
             holder = objectToInteractWith.GetComponent<ScribblerHolder>();
 
             if (holder)
