@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 public class ScribblerSortingPuzzle : MonoBehaviour 
 {
-	List<Scribbler> allScribblers;
+	List<GrabbableScribbler> allScribblers;
 	List<ScribblerHolder> allHolders;
 
 	// Use this for initialization
 	void Awake () 
 	{
 		allHolders = new List<ScribblerHolder>();
-		allScribblers = new List<Scribbler>();
+		allScribblers = new List<GrabbableScribbler>();
 	}
 	
 	// Update is called once per frame
@@ -19,7 +19,7 @@ public class ScribblerSortingPuzzle : MonoBehaviour
 	
 	}
 	
-	public void AddScribbler(Scribbler scribbler)
+	public void AddScribbler(GrabbableScribbler scribbler)
 	{
 		allScribblers.Add(scribbler);
 	}
@@ -29,7 +29,12 @@ public class ScribblerSortingPuzzle : MonoBehaviour
 		allHolders.Add(holder);
 	}
 
-	public void PutInHolder(Scribbler scribbler, ScribblerHolder targetHolder)
+    public void RemoveFromHolder(GrabbableScribbler scribbler)
+    {
+        
+    }
+
+	public void PutInHolder(GrabbableScribbler scribbler, ScribblerHolder targetHolder)
 	{
 		targetHolder.AddScribbler(scribbler);
 

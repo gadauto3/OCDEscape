@@ -2,16 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ScribblerHolder : MonoBehaviour 
+public class ScribblerHolder : MonoBehaviour
 {
-	List<Scribbler> scribblers;
+    public ScribblerSortingPuzzle puzzle;
+
+	List<GrabbableScribbler> scribblers;
 	
-	public void AddScribbler(Scribbler scribbler)
+	public void AddScribbler(GrabbableScribbler scribbler)
 	{
 		scribblers.Add(scribbler);
 	}
 	
-	public void RemoveScribbler(Scribbler scribbler)
+	public void RemoveScribbler(GrabbableScribbler scribbler)
 	{
 		scribblers.Remove(scribbler);
 	}
@@ -23,7 +25,7 @@ public class ScribblerHolder : MonoBehaviour
 		bool areTypesTheSame = true;
 		bool firstScribblerType = scribblers[0].isPen;
 
-		foreach (Scribbler scribbler in scribblers) {
+		foreach (GrabbableScribbler scribbler in scribblers) {
 			if (firstScribblerType != scribbler.isPen) {
 				areTypesTheSame = false;
 				break;
@@ -40,7 +42,7 @@ public class ScribblerHolder : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		scribblers = new List<Scribbler>();
+		scribblers = new List<GrabbableScribbler>();
 		
 		ScribblerSortingPuzzle puzzle = GetComponentInParent<ScribblerSortingPuzzle>();
 		puzzle.AddScribblerHolder(this);
