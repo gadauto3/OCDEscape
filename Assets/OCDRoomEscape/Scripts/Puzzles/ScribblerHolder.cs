@@ -41,6 +41,9 @@ public class ScribblerHolder : MonoBehaviour
 	void Start () 
 	{
 		scribblers = new List<Scribbler>();
+		
+		ScribblerSortingPuzzle puzzle = GetComponentInParent<ScribblerSortingPuzzle>();
+		puzzle.AddScribblerHolder(this);
 	}
 	
 	// Update is called once per frame
