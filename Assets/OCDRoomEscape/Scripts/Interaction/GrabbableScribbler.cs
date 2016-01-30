@@ -41,23 +41,50 @@ public class GrabbableScribbler : GrabbableObject
             {
                 puzzle.RemoveFromHolder(this);
             }
+
         }
+        holder = null; // We just removed from the holder
 
         return interact;
     }
+
+    protected ScribblerHolder holder;
 
     public override bool OffInteract(GazePointer pointer, Transform objectToInteractWith)
     {
         if (objectToInteractWith)
         {
-            var holder = objectToInteractWith.GetComponent<ScribblerHolder>();
+            Debug.Log("Found a scribble holder");
+
+            holder = objectToInteractWith.GetComponent<ScribblerHolder>();
 
             if (holder)
             {
                 holder.puzzle.PutInHolder(this, holder);
             }
         }
+        else
+        {
+            Debug.Log("objectToInteractWith is null");
+            holder = null;
+        }
 
         return base.OffInteract(pointer, objectToInteractWith);
+    }
+
+    protected override Vector3 GetMoveToNotGrabbedOffsetPosition()
+    {
+        return base.GetMoveToNotGrabbedPosition() + Vector3.up * 0.5f;
+    }
+
+    protected override Vector3 GetMoveToNotGrabbedPosition()
+    {
+
+        if (holder)
+        {
+            return holder.transform.position;
+        }
+
+        return lastPosition;
     }
 }

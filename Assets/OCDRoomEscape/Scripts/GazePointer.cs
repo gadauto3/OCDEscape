@@ -91,18 +91,29 @@ public class GazePointer : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, raycastDistance, grabbedInteractableMask.value, QueryTriggerInteraction.Collide))
         {
-            // Debug.Log("Hiting object to interact with");
+//             Debug.Log("Hiting object to interact with");
             objectToInteractWith = hit.transform;
 
             if (InteractingObject.OnGrabbedHighlight(hit.transform))
             {
-                UpdateGrabbedHighlight(hit.transform);
+//                UpdateGrabbedHighlight(hit.transform);
+                if(highlightedGrabbedObject) highlightedGrabbedObject.OffHighlight();
+
+                var highlight = hit.transform.GetComponent<HighlightManager>();
+                if (highlight)
+                {
+                    highlightedGrabbedObject = highlight;
+                    highlight.OnHighlight();
+                }
             }
             else
             {
-                if(highlightedGrabbedObject) highlightedGrabbedObject.OffHighlight();
+                if (highlightedGrabbedObject) highlightedGrabbedObject.OffHighlight();
             }
-
+        }
+        else
+        {
+            if(highlightedGrabbedObject) highlightedGrabbedObject.OffHighlight();
         }
 
         InteractingObject.LogicUpdate();
@@ -168,30 +179,29 @@ public class GazePointer : MonoBehaviour
         }
     }
 
-
-    protected void UpdateGrabbedHighlight(Transform newHighlightedObject)
-    {
-        var highlightManager = newHighlightedObject.gameObject.GetComponent<HighlightManager>();
-
-        if (highlightManager == null) // DeHighlight when not pointing at an object
-        {
-            if (highlightedGrabbedObject != null)
-            {
-                highlightedGrabbedObject.OffHighlight();
-                highlightedGrabbedObject = null;
-            }
-        }
-        else if (!highlightManager.Equals(highlightedGrabbedObject))
-        {
-            if (highlightedGrabbedObject != null)
-            {
-                highlightedGrabbedObject.OffHighlight();
-            }
-
-            highlightedGrabbedObject = highlightManager;
-            highlightedGrabbedObject.OnHighlight();
-        }
-    }
+//    protected void UpdateGrabbedHighlight(Transform newHighlightedObject)
+//    {
+//        var highlightManager = newHighlightedObject.gameObject.GetComponent<HighlightManager>();
+//
+//        if (highlightManager == null) // DeHighlight when not pointing at an object
+//        {
+//            if (highlightedGrabbedObject != null)
+//            {
+//                highlightedGrabbedObject.OffHighlight();
+//                highlightedGrabbedObject = null;
+//            }
+//        }
+//        else if (highlightManager == highlightedGrabbedObject)
+//        {
+//            if (highlightedGrabbedObject != null)
+//            {
+//                highlightedGrabbedObject.OffHighlight();
+//            }
+//
+//            highlightedGrabbedObject = highlightManager;
+//            highlightedGrabbedObject.OnHighlight();
+//        }
+//    }
 
     protected void CreateAnchor()
     {

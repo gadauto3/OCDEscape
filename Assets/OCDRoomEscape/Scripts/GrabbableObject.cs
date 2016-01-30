@@ -103,7 +103,7 @@ public class GrabbableObject : InteractableObject
 
     public override bool OnGrabbedHighlight(Transform highlightedObject)
     {
-        return highlightedObject.tag.Equals(grabbedInteractTag);
+        return highlightedObject.gameObject.tag == grabbedInteractTag;
     }
 
     protected virtual Vector3 GetMoveToAnchorOffsetPosition()
@@ -113,7 +113,7 @@ public class GrabbableObject : InteractableObject
 
     protected virtual Vector3 GetMoveToNotGrabbedOffsetPosition()
     {
-        return lastPosition;
+        return GetMoveToNotGrabbedPosition();
     }
 
     protected virtual Vector3 GetMoveToNotGrabbedPosition()
