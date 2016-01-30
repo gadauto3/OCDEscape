@@ -15,6 +15,8 @@ public class GrabbableObject : InteractableObject
     public float freeDrag = 0f;
     public float grabbedDrag = 10f;
 
+    public string grabbedInteractTag; // Tag for objects you can interact with while this object is grabbed
+
 //    public Vector3 grabMoveOffset = Vector3.zero; // This is an offset that the object will move to when grabbing before moving to the anchor. 
 
 //    public Vector3 rotationAxis;
@@ -57,7 +59,14 @@ public class GrabbableObject : InteractableObject
     }
 
     // This will be called by the Gaze pointer after an object is grabbed. 
-    public override void PhysicsUpdate()
+//    public override void PhysicsUpdate()
+//    {
+//        if (moveToAnchor || moveToLastPosition) return;
+//
+//        anchor.position = gazeAnchor.position;
+//    }
+
+    public override void LogicUpdate()
     {
         if (moveToAnchor || moveToLastPosition) return;
 
@@ -90,6 +99,11 @@ public class GrabbableObject : InteractableObject
         StartCoroutine(MoveToNotGrabbedPosition());
 
         return true;
+    }
+
+    public override bool OnGrabbedHighlight(Transform highlightedObject)
+    {
+        return highlightedObject.tag.Equals(grabbedInteractTag);
     }
 
     protected virtual Vector3 GetMoveToAnchorOffsetPosition()

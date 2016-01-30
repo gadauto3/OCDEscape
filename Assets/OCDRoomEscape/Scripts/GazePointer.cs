@@ -25,6 +25,8 @@ public class GazePointer : MonoBehaviour
 
     protected InteractableObject interactingObject;
 
+    protected HighlightManager highlightedGrabbedObject;
+
     protected bool interacting = false;
 
     #region Properties
@@ -78,7 +80,6 @@ public class GazePointer : MonoBehaviour
         {
             UpdateHighlight(null);
         }
-
     }
 
     protected void UpdateInteracting()
@@ -90,7 +91,18 @@ public class GazePointer : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, raycastDistance, grabbedInteractableMask.value, QueryTriggerInteraction.Collide))
         {
+            // Debug.Log("Hiting object to interact with");
             objectToInteractWith = hit.transform;
+
+            if (InteractingObject.OnGrabbedHighlight(hit.transform))
+            {
+                UpdateGrabbedHighlight(hit.transform);
+            }
+            else
+            {
+                if(highlightedGrabbedObject) highlightedGrabbedObject.OffHighlight();
+            }
+
         }
 
         InteractingObject.LogicUpdate();
@@ -99,6 +111,11 @@ public class GazePointer : MonoBehaviour
         {
 //            interacting = false;
             interacting = !interactingObject.OffInteract(this, objectToInteractWith);
+
+            if (!interacting)
+            {
+                if (highlightedGrabbedObject) highlightedGrabbedObject.OffHighlight();
+            }
         }
     }
 
@@ -148,6 +165,31 @@ public class GazePointer : MonoBehaviour
 
             highlightedObject = interactable;
             highlightedObject.OnHighlight(this);
+        }
+    }
+
+
+    protected void UpdateGrabbedHighlight(Transform newHighlightedObject)
+    {
+        var highlightManager = newHighlightedObject.gameObject.GetComponent<HighlightManager>();
+
+        if (highlightManager == null) // DeHighlight when not pointing at an object
+        {
+            if (highlightedGrabbedObject != null)
+            {
+                highlightedGrabbedObject.OffHighlight();
+                highlightedGrabbedObject = null;
+            }
+        }
+        else if (!highlightManager.Equals(highlightedGrabbedObject))
+        {
+            if (highlightedGrabbedObject != null)
+            {
+                highlightedGrabbedObject.OffHighlight();
+            }
+
+            highlightedGrabbedObject = highlightManager;
+            highlightedGrabbedObject.OnHighlight();
         }
     }
 

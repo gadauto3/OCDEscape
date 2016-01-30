@@ -48,6 +48,11 @@ public class InteractableObject : MonoBehaviour
         return false;
     }
 
+    public virtual bool OnGrabbedHighlight(Transform highlightedObject)
+    {
+        return true;
+    }
+
     /// <summary>
     /// Returns true if it can be released
     /// objectToInteractWith is 
