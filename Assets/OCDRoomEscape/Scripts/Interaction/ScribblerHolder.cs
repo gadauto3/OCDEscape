@@ -9,6 +9,10 @@ public class ScribblerHolder : MonoBehaviour
     public Transform dropPosition;
 
 	List<GrabbableScribbler> scribblers;
+
+    public float dropRadius = 0.05f;
+
+    public float dropAngle = 10f;
 	
 	public void AddScribbler(GrabbableScribbler scribbler)
 	{
