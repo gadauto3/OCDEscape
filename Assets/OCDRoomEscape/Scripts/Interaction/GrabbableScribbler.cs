@@ -70,8 +70,29 @@ public class GrabbableScribbler : GrabbableObject
         return base.OffInteract(pointer, objectToInteractWith);
     }
 
+    protected override Quaternion GetMoveToNotGrabbedRotation()
+    {
+        if (holder)
+        {
+            return holder.dropPosition.rotation;
+        }
+        else
+        {
+            return lastRotation;
+        }
+    }
+
     protected override Vector3 GetMoveToNotGrabbedOffsetPosition()
     {
+        if (holder)
+        {
+            return holder.dropPosition.position;
+        }
+        else
+        {
+            return lastPosition + Vector3.up * 0.2f;
+        }
+
         return base.GetMoveToNotGrabbedPosition() + Vector3.up * 0.5f;
     }
 
