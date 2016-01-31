@@ -195,8 +195,8 @@ public class GrabbableSizedObject : GrabbableObject
 
         var targetPosition = GetMoveToNotGrabbedOffsetPosition();
 
-        Debug.Log("Target Position");
-        Debug.Log(targetPosition);
+//        Debug.Log("Target Position");
+//        Debug.Log(targetPosition);
 
         var initRotation = transform.rotation;
         var targetRotation = GetMoveToNotGrabbedRotation();
