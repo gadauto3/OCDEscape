@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SizedObject : GrabbableObject 
+public class GrabbableSizedObject : GrabbableObject 
 {
-	SizedObject objectBelow;
+	GrabbableSizedObject objectBelow;
 	OrganizeBySizePuzzle puzzle;
 
 	// Use this for initialization
@@ -17,13 +17,18 @@ public class SizedObject : GrabbableObject
 	
 	}
 
-	public float Size { get { return 1f; } }
+	public float Size { 
+		get { 
+			BoxCollider collider = GetComponent<BoxCollider>();
+			return collider.size.x * collider.size.z;
+		} 
+	}
 
 	public override bool OffInteract(GazePointer pointer, Transform objectToInteractWith)
 	{
 		if (objectToInteractWith)
 		{
-			objectBelow = objectToInteractWith.GetComponent<SizedObject>();
+			objectBelow = objectToInteractWith.GetComponent<GrabbableSizedObject>();
 			
 			if (objectBelow)
 			{
