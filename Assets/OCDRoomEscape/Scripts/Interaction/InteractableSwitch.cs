@@ -11,12 +11,16 @@ public class InteractableSwitch : InteractableObject
 
     public GameObject[] enableWhenTurnedOn;
     public GameObject[] disableWhenTurnedOn;
+//    public AnimationClip animateWhenTurnedOn;
 
     public GameObject[] enableWhenTurnedOff;
     public GameObject[] disableWhenTurnedOff;
+//    public AnimationClip animateWhenTurnedOff;
 
     public AudioSource playWhenTurnedOn;
     public AudioSource playWhenTurnedOff;
+
+    public Animator animator;
 
     protected override void Awake()
     {
@@ -40,6 +44,11 @@ public class InteractableSwitch : InteractableObject
             onAction();
 
             if(playWhenTurnedOn) playWhenTurnedOn.Play();
+
+            if (animator != null)
+            {
+                animator.SetBool("TurnOn", true);
+            }
         }
         else
         {
@@ -54,6 +63,11 @@ public class InteractableSwitch : InteractableObject
             offAction();
 
             if(playWhenTurnedOff) playWhenTurnedOff.Play();
+
+            if (animator != null)
+            {
+                animator.SetBool("TurnOn", false);
+            }
         }
     }
 
