@@ -8,6 +8,7 @@ public class GrabbableSizedObject : GrabbableObject
 	Vector3 dropPosition;
 
     public GameObject trigger;
+	public int size = 1;
 
 
 	// Use this for initialization
@@ -20,13 +21,6 @@ public class GrabbableSizedObject : GrabbableObject
 	// Update is called once per frame
 	void Update () {
 	
-	}
-
-	public float Size { 
-		get { 
-			BoxCollider collider = GetComponent<BoxCollider>();
-			return collider.size.x * collider.size.z;
-		} 
 	}
 
     public override bool OnInteract(GazePointer pointer)

@@ -41,14 +41,14 @@ public class OrganizeBySizePuzzle : MonoBehaviour
 		bool isSolved = false;
 		if (sizedAndPlacedObjects.Count == allSizedObjects.Count) {
 			isSolved = true; // Flipped for the for loop
-			float previousSize = sizedAndPlacedObjects[0].Size;
+			int previousSize = sizedAndPlacedObjects[0].size;
 			for (int i = 1; i < sizedAndPlacedObjects.Count; i++) {
 				GrabbableSizedObject nextObject = sizedAndPlacedObjects[i];
-				if (nextObject.Size > previousSize) {
+				if (nextObject.size > previousSize) {
 					isSolved = false;
 					break;
 				}
-				previousSize = nextObject.Size;
+				previousSize = nextObject.size;
 			}
 		}
 
