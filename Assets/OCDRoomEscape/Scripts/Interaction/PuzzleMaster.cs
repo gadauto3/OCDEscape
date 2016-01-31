@@ -11,10 +11,9 @@ public class PuzzleMaster : MonoBehaviour
 	// Use this for initialization
 	void Awake () 
 	{
-		puzzles = new List<Puzzle>(); // TODO: Is this how editor is supposed to work?
-
 		foreach (var puzzle in puzzles) {
 			Debug.Log("Puzzle added: "+puzzle);
+
 		}
 	}
 
@@ -32,11 +31,14 @@ public class PuzzleMaster : MonoBehaviour
 		// TODO: Notify room of growth increment
 		Debug.Log("Puzzle completed: "+puzzle+"\nNotify room of growth increment: "+growthIncrement);
 
-		// Remove the puzzle, but also allow it to remain in the list
-		puzzles.RemoveAt(puzzles.IndexOf(puzzle));
-
 		if (puzzle.IsResetable() && puzzles.Contains(puzzle)) {
+			Debug.Log("Puzzle marked for reset");
 			puzzle.MarkForReset();
 		}
+
+		Debug.Log("Index: "+puzzles.IndexOf(puzzle)+" in puzzles: "+puzzles+" with count "+puzzles.Count);
+		// Remove the puzzle, but also allow it to remain in the list multiple times
+		puzzles.Remove(puzzle);
+		Debug.Log("Count after: "+puzzles.Count);
 	}
 }
