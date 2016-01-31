@@ -33,6 +33,12 @@ public class GrabAndPlaceObject : InteractableObject
     [Tooltip("This sound will play when the interaction starts")]
     public AudioSource startAudioSource;
 
+    public bool customLoopStartAudio;
+    public float customLoopFreq = 1f;
+
+    protected bool doCustomLoopAudio;
+
+
     [Tooltip("This sound will play when the object is placed")]
     public AudioSource placedSoundSource;
 
@@ -51,10 +57,21 @@ public class GrabAndPlaceObject : InteractableObject
 
         if (startAudioSource)
         {
-            startAudioSource.loop = true;
-            startAudioSource.Play();
-            placed = false;
+            if (customLoopStartAudio)
+            {
+                startAudioSource.loop = false;
+
+                StopCoroutine(CustomLoopAudio());
+                StartCoroutine(CustomLoopAudio());
+            }
+            else
+            {
+                startAudioSource.loop = true;
+                startAudioSource.Play();
+            }
         }
+
+        placed = false;
     }
 
     public override bool OnInteract(GazePointer pointer)
@@ -70,7 +87,13 @@ public class GrabAndPlaceObject : InteractableObject
 
         if (placed)
         {
-            if (startAudioSource && !startAudioSource.isPlaying)
+            if (startAudioSource && customLoopStartAudio)
+            {
+//                StopCoroutine(CustomLoopAudio());
+//                Debug.Log("Starting Custom Loop Audio");
+                if(!doCustomLoopAudio) StartCoroutine(CustomLoopAudio());
+            }
+            else if (startAudioSource && !startAudioSource.isPlaying)
             {
                 startAudioSource.Play();
             }
@@ -78,8 +101,15 @@ public class GrabAndPlaceObject : InteractableObject
             placed = false;
         }
 
-        StopAllCoroutines();
+        StopCoroutine(MoveToAnchorPosition());
+        StopCoroutine(MoveToNotGrabbedPosition());
+
         StartCoroutine(MoveToAnchorPosition());
+//
+//        if (doCustomLoopAudio)
+//        {
+//            StartCoroutine(CustomLoopAudio());
+//        }
 
         return true;
     }
@@ -103,7 +133,10 @@ public class GrabAndPlaceObject : InteractableObject
             }
         }
 
-        StopAllCoroutines();
+//        StopAllCoroutines();
+
+        StopCoroutine(MoveToAnchorPosition());
+        StopCoroutine(MoveToNotGrabbedPosition());
         StartCoroutine(MoveToNotGrabbedPosition());
 
         return true;
@@ -214,6 +247,19 @@ public class GrabAndPlaceObject : InteractableObject
         }
     }
 
+    protected IEnumerator CustomLoopAudio()
+    {
+        doCustomLoopAudio = true;
+        startAudioSource.loop = false;
+
+        while (doCustomLoopAudio)
+        {
+            startAudioSource.Play();
+
+            yield return new WaitForSeconds(customLoopFreq);
+        }
+    }
+
     protected virtual IEnumerator MoveToNotGrabbedPosition()
     {
         movingToPlacedPosition = true;
@@ -275,6 +321,10 @@ public class GrabAndPlaceObject : InteractableObject
                     if (startAudioSource)
                     {
                         startAudioSource.Stop();
+
+                        doCustomLoopAudio = false;
+
+                        // StopCoroutine(CustomLoopAudio());
                     }
 
                     if (placedSoundSource)

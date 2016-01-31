@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class OrganizeBySizePuzzle : MonoBehaviour 
+public class OrganizeBySizePuzzle : Puzzle 
 {
+
+	bool hasPuzzleBeenSolved;
 	List<GrabbableSizedObject> allSizedObjects;
 	List<GrabbableSizedObject> sizedAndPlacedObjects;
 
@@ -59,6 +61,7 @@ public class OrganizeBySizePuzzle : MonoBehaviour
 
 		if (isSolved) {
 			Debug.Log("OrganizeBySizePuzzle is solved");
+			base.CompletePuzzle();
 		}
 	}
 
