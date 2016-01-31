@@ -50,7 +50,7 @@ public class ScribblerHolder : MonoBehaviour
 
         var angleStep = 360f/dropPositionCount;
 
-        Debug.Log("AngleStep = " + angleStep);
+        // Debug.Log("AngleStep = " + angleStep);
 
         var angle = 180f;
 
