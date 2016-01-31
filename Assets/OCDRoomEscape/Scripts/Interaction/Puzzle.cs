@@ -3,21 +3,31 @@ using System.Collections;
 
 public class Puzzle : MonoBehaviour {
 
+	public PuzzleMaster master;
 	public int puzzleWeight = 1; // If the puzzle has more weight, it has a greater affect on room growth
 
 	float waitBeforeTryingToReset = 8f;
 	float waitBetweenResetChecks = 2f;
 
 	// Use this for initialization
-	void Start () {
-	
+	public virtual void Start () 
+	{
+		GameObject room = GameObject.Find("PuzzleMaster");
+		Debug.Log("Room: "+room);
+		master = room.GetComponent<PuzzleMaster>();
+		Debug.Log("Master: "+master);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
-	
+
+	public virtual void CompletePuzzle()
+	{
+		master.PuzzleCompleted(this);
+	}
+
 	public virtual bool IsPuzzleComplete() {
 		return false;
 	}
