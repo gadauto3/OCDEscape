@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ScribblerSortingPuzzle : MonoBehaviour 
+public class ScribblerSortingPuzzle : Puzzle 
 {
 	List<GrabbableScribbler> allScribblers;
 	List<ScribblerHolder> allHolders;
@@ -14,10 +14,10 @@ public class ScribblerSortingPuzzle : MonoBehaviour
 		allScribblers = new List<GrabbableScribbler>();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+//	// Update is called once per frame
+//	void Update () {
+//	
+//	}
 	
 	public void AddScribbler(GrabbableScribbler scribbler)
 	{

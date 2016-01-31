@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CoffeePotPuzzle : Puzzle 
+public class CoffeePotPuzzle : Puzzle
 {
+    private bool didSolvePuzzle = false;
 	private bool isCoffeePotInMaker = false;
 	private bool hasCoffeePotGoneHome = false;
 	
@@ -10,9 +11,14 @@ public class CoffeePotPuzzle : Puzzle
 	void Start () {
 		
 	}
+
+    public void SetPuzzleIsSolved()
+    {
+        didSolvePuzzle = true;
+    }
 	
 	void Update () {
-		bool isCoffeePotNowInMaker = false;
+		bool isCoffeePotNowInMaker = didSolvePuzzle;
 		if (isCoffeePotInMaker != isCoffeePotNowInMaker) {
 			isCoffeePotInMaker = isCoffeePotNowInMaker;
 			

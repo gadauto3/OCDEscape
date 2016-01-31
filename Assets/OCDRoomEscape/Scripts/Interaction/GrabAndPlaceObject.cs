@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 /// <summary>
 /// This is like Grabbable object but with no physics. 
@@ -38,6 +39,7 @@ public class GrabAndPlaceObject : InteractableObject
 
     protected bool doCustomLoopAudio;
 
+    public UnityAction onObjectPlacedAction = () => {}; 
 
     [Tooltip("This sound will play when the object is placed")]
     public AudioSource placedSoundSource;
@@ -335,6 +337,8 @@ public class GrabAndPlaceObject : InteractableObject
                 }
 
                 placed = true;
+
+                onObjectPlacedAction();
             }
             else
             {
