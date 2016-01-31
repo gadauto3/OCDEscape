@@ -13,8 +13,9 @@ public class Puzzle : MonoBehaviour {
 	// Use this for initialization
 	public virtual void Start () 
 	{
-		GameObject room = GameObject.Find("PuzzleMaster");
-		master = room.GetComponent<PuzzleMaster>();
+		if (!master) {
+			Debug.Log("Puzzle is missing a master!! "+this);
+		}
 	}
 	
 	// Update is called once per frame

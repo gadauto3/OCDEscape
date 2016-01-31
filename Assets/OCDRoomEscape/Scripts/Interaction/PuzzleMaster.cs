@@ -16,7 +16,6 @@ public class PuzzleMaster : MonoBehaviour
 	{
 		foreach (var puzzle in puzzles) {
 			Debug.Log("Puzzle added: "+puzzle);
-
 		}
 	}
 
