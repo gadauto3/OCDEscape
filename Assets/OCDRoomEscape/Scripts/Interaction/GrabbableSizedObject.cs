@@ -5,6 +5,7 @@ public class GrabbableSizedObject : GrabbableObject
 {
 	GrabbableSizedObject objectBelow;
 	OrganizeBySizePuzzle puzzle;
+	Vector3 dropPosition;
 
 	// Use this for initialization
 	void Start () 
@@ -33,8 +34,7 @@ public class GrabbableSizedObject : GrabbableObject
 			if (objectBelow)
 			{
 				puzzle.AddSizedObject(this);
-				
-//				dropPosition = objectBelow.transform.position; //TODO: Gotta handle the drop
+				dropPosition = objectBelow.transform.position;
 			}
 		}
 		else
@@ -46,4 +46,20 @@ public class GrabbableSizedObject : GrabbableObject
 		return base.OffInteract(pointer, objectToInteractWith);
 	}
 
+	protected override Vector3 GetMoveToNotGrabbedOffsetPosition()
+	{
+		if (objectBelow) {
+			return objectBelow.transform.position + Vector3.up * 0.1f;
+		} else {
+			return base.GetMoveToNotGrabbedOffsetPosition();
+		}
+	}
+	protected override Quaternion GetMoveToNotGrabbedRotation()
+	{
+		if (objectBelow) {
+			return objectBelow.transform.rotation;
+		} else {
+			return base.GetMoveToNotGrabbedRotation();
+		}
+	}
 }
