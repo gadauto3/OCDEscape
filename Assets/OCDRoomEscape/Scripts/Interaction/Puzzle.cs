@@ -14,9 +14,7 @@ public class Puzzle : MonoBehaviour {
 	public virtual void Start () 
 	{
 		GameObject room = GameObject.Find("PuzzleMaster");
-		Debug.Log("Room: "+room);
 		master = room.GetComponent<PuzzleMaster>();
-		Debug.Log("Master: "+master);
 	}
 	
 	// Update is called once per frame
