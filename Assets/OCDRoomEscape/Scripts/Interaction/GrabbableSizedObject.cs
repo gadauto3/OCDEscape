@@ -140,18 +140,18 @@ public class GrabbableSizedObject : GrabbableObject
 
         while (moveToAnchor)
         {
-            var toAnchor = gazeAnchor.position - transform.position;
+            var anchorPos = gazeAnchor.position + Vector3.up*-0.1f;
+            var toAnchor = anchorPos - transform.position;
 
             var moveDistance = Mathf.Min(grabSpeed * Time.deltaTime, toAnchor.magnitude);
 
             transform.position += toAnchor.normalized * moveDistance;
 
-            var dist = Vector3.Distance(transform.position, gazeAnchor.position);
+            var dist = Vector3.Distance(transform.position, anchorPos);
 
             var t = dist / Mathf.Max(initDist, float.Epsilon);
 
-
-            //            var localUp = pointer.transform.InverseTransformDirection(grabbedUpAxis);
+            // var localUp = pointer.transform.InverseTransformDirection(grabbedUpAxis);
             // transform.rotation = Quaternion.Slerp(targetRotation, initRotation, t);
 
             if (dist < 0.001f)
@@ -159,13 +159,13 @@ public class GrabbableSizedObject : GrabbableObject
                 moveToAnchor = false;
                 // anchor.parent = gazeAnchor;
 
-                transform.position = gazeAnchor.position;
+                transform.position = anchorPos;
 
                 myRigidbody.isKinematic = true;
+                FreeJoint();
 
                 anchor.position = transform.position;
 
-                FreeJoint();
                 transform.parent = gazeAnchor;
 
                 // myJoint.linearLimit = new SoftJointLimit();
