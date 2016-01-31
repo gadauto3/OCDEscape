@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 public class OrganizeBySizePuzzle : MonoBehaviour 
 {
-	List<SizedObject> allSizedObjects;
-	List<SizedObject> sizedAndPlacedObjects;
+	List<GrabbableSizedObject> allSizedObjects;
+	List<GrabbableSizedObject> sizedAndPlacedObjects;
 
 	// Use this for initialization
 	void Start () 
 	{
-		allSizedObjects = new List<SizedObject>();
-		sizedAndPlacedObjects = new List<SizedObject>();
+		allSizedObjects = new List<GrabbableSizedObject>();
+		sizedAndPlacedObjects = new List<GrabbableSizedObject>();
 	}
 	
 	// Update is called once per frame
@@ -24,12 +24,12 @@ public class OrganizeBySizePuzzle : MonoBehaviour
 		Debug.Log("Do we need ResetPuzzle?");
 	}
 
-	public void AddSizedObject(SizedObject sizedObject) 
+	public void AddSizedObject(GrabbableSizedObject sizedObject) 
 	{
 		allSizedObjects.Add(sizedObject);
 	}
 	
-	public void PlaceSizedObject(SizedObject sizedObject) 
+	public void PlaceSizedObject(GrabbableSizedObject sizedObject) 
 	{
 		sizedAndPlacedObjects.Add(sizedObject);
 
@@ -39,7 +39,7 @@ public class OrganizeBySizePuzzle : MonoBehaviour
 			isSolved = true; // Flipped for the for loop
 			float previousSize = sizedAndPlacedObjects[0].Size;
 			for (int i = 1; i < sizedAndPlacedObjects.Count; i++) {
-				SizedObject nextObject = sizedAndPlacedObjects[i];
+				GrabbableSizedObject nextObject = sizedAndPlacedObjects[i];
 				if (nextObject.Size > previousSize) {
 					isSolved = false;
 					break;
@@ -52,7 +52,7 @@ public class OrganizeBySizePuzzle : MonoBehaviour
 		}
 	}
 
-	public void UnplaceSizedObject(SizedObject sizedObject) 
+	public void UnplaceSizedObject(GrabbableSizedObject sizedObject) 
 	{
 		sizedAndPlacedObjects.Remove(sizedObject);
 	}
