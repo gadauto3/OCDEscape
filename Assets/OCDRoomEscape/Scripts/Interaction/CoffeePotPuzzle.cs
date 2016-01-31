@@ -6,6 +6,7 @@ public class CoffeePotPuzzle : Puzzle
     private bool didSolvePuzzle = false;
 	private bool isCoffeePotInMaker = false;
 	private bool hasCoffeePotGoneHome = false;
+
 	
 	// Use this for initialization
 	void Start () {

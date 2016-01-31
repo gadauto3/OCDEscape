@@ -5,14 +5,22 @@ public class PhonePuzzle : Puzzle
 {	
 	private bool isPhoneOnHook = false;
 	private bool hasPhoneBeenPutOnHook = false;
-	
-	// Use this for initialization
-	void Start () {
+
+    private bool didSolvePuzzle = false;
+
+
+    // Use this for initialization
+    void Start () {
 		
 	}
-	
-	void Update () {
-		bool isPhonePutOnHook = false;
+
+    public void SetPuzzleIsSolved()
+    {
+        didSolvePuzzle = true;
+    }
+
+    void Update () {
+		bool isPhonePutOnHook = didSolvePuzzle;
 		if (isPhoneOnHook != isPhonePutOnHook) {
 			isPhoneOnHook = isPhonePutOnHook;
 			
