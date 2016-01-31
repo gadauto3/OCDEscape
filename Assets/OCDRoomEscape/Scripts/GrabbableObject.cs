@@ -108,6 +108,7 @@ public class GrabbableObject : InteractableObject
 
     public override bool OnGrabbedHighlight(Transform highlightedObject)
     {
+//        Debug.Log("Highlighted Object is " + highlightedObject.gameObject.tag);
         return highlightedObject.gameObject.tag == grabbedInteractTag;
     }
 
