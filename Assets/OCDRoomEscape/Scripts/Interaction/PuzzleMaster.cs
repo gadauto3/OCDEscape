@@ -26,7 +26,7 @@ public class PuzzleMaster : MonoBehaviour
 		// Remove the puzzle, but also allow it to remain in the list
 		puzzles.RemoveAt(puzzles.IndexOf(puzzle));
 
-		if (puzzle.IsResetable && puzzles.Contains(puzzle)) {
+		if (puzzle.IsResetable() && puzzles.Contains(puzzle)) {
 			puzzle.MarkForReset();
 		}
 	}

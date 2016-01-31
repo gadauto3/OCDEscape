@@ -41,10 +41,13 @@ public class Puzzle : MonoBehaviour {
 		}
 
 		ResetPuzzle();
+
+		yield break;
 	}
 
 	private bool IsPuzzleInCameraView()
 	{
 		// TODO: Define
+		return true;
 	}
 }
