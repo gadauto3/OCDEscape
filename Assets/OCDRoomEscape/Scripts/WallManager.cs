@@ -87,7 +87,9 @@ public class WallManager : MonoBehaviour
                 ResizeRoom();
             }
         }
-
+#if UNITY_EDITOR
+    ResizeRoom();
+#endif
 
     }
 
