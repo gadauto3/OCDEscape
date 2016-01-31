@@ -87,6 +87,8 @@ public class GrabAndPlaceObject : InteractableObject
 
         beforeMovePosition = transform.position;
 
+        transform.parent = initParent;
+
         if (placed)
         {
             if (startAudioSource && customLoopStartAudio)
@@ -317,6 +319,7 @@ public class GrabAndPlaceObject : InteractableObject
             {
                 movingToPlacedPosition = false;
                 transform.position = targetPosition;
+                
 
                 if (placement != null)
                 {
@@ -334,6 +337,8 @@ public class GrabAndPlaceObject : InteractableObject
                         placedSoundSource.loop = false;
                         placedSoundSource.Play();
                     }
+
+                    transform.parent = placement.transform;
                 }
 
                 placed = true;
