@@ -22,9 +22,5 @@ public class DeskLampPuzzle : Puzzle
 			base.CompletePuzzle();
 		}
 	}
-	
-	public override bool IsPuzzleComplete() {
-		return hasLampBeenTurnedOn;
-	}
 
 }
