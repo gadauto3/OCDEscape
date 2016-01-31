@@ -12,6 +12,8 @@ public class WallManager : MonoBehaviour
     public float transformRoom = 0;
 
     public Transform ceiling;
+    public Transform ceilingMesh;
+
 
     public Vector2 wallHeightRange = new Vector2(2.5f, 3.4f);
     public Vector2 wallWidthRange = new Vector2(3f, 6f);
@@ -68,6 +70,11 @@ public class WallManager : MonoBehaviour
     {
         var t = transformRoom;
 
+        var width = Mathf.Lerp(wallWidthRange.x, wallWidthRange.y, t);
+        var height = Mathf.Lerp(wallHeightRange.x, wallHeightRange.y, t);
+
+        var scaler = new Vector3(width, height, 1f);
+
         for (var i = 0; i < walls.Length; i++)
         {
             var wall = walls[i];
@@ -76,10 +83,10 @@ public class WallManager : MonoBehaviour
 
             wall.transform.position = transform.position - wall.transform.forward*Mathf.Lerp(wallOffsetRange.x, wallOffsetRange.y, t);
 
-            var width = Mathf.Lerp(wallWidthRange.x, wallWidthRange.y, t);
-            var height = Mathf.Lerp(wallHeightRange.x, wallHeightRange.y, t);
+            var wallMeshPos = wall.mesh.localPosition;
+            wallMeshPos.y = height*0.5f;
+            wall.mesh.localPosition = wallMeshPos;
 
-            var scaler = new Vector3(width, height, 1f);
             wall.mesh.localScale = scaler;
 
             if(wall.attachedObjects == null) continue;
@@ -92,5 +99,9 @@ public class WallManager : MonoBehaviour
                 attachedObject.transform.localPosition = Vector3.Scale(attachedObject.initLocalPos, new Vector3(1 + t, 1, 1));
             }
         }
+
+        ceiling.position = transform.position + Vector3.up*height;
+
+        ceilingMesh.localScale = new Vector3(width, width, 1);
     }
 }
