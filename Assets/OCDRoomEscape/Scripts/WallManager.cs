@@ -20,6 +20,13 @@ public class WallManager : MonoBehaviour
 
     public Vector2 wallOffsetRange = new Vector2(2f, 8f);
 
+    public bool autoGrowRoom;
+
+    public float growStep = 0.005f;
+
+    public float growTime = 10f;
+    protected float growTimer;
+
     [Serializable]
     public class Wall
     {
@@ -63,11 +70,24 @@ public class WallManager : MonoBehaviour
                 
             }
         }
-    }
 
+        growTimer = growTime;
+    }
 
     protected void Update()
     {
+        if (autoGrowRoom)
+        {
+            growTimer -= Time.deltaTime;
+
+            if (growTimer < 0)
+            {
+                transformRoom += growStep;
+                growTimer = growTime;
+            }
+        }
+
+
         var t = transformRoom;
 
         var width = Mathf.Lerp(wallWidthRange.x, wallWidthRange.y, t);
