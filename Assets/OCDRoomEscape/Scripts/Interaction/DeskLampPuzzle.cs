@@ -18,13 +18,12 @@ public class DeskLampPuzzle : Puzzle
 	void Update () {
 		if (isLampOn != lampSwitch.turnedOn) {
 			isLampOn = lampSwitch.turnedOn;
+
+			if (!hasLampBeenTurnedOn) {
+				base.CompletePuzzle();
+			}
 			hasLampBeenTurnedOn = true;
-			base.CompletePuzzle();
 		}
-	}
-	
-	public override bool IsPuzzleComplete() {
-		return hasLampBeenTurnedOn;
 	}
 
 }

@@ -88,15 +88,43 @@ public class WallManager : MonoBehaviour
             }
         }
 #if UNITY_EDITOR
-    ResizeRoom();
+    // ResizeRoom();
 #endif
 
     }
 
     public void Resize(float t)
     {
-        transformRoom = t;
-        ResizeRoom();
+//        transformRoom = t;
+//        ResizeRoom();
+
+//        Debug.Log("Resizing " + t);
+
+//        StopAllCoroutines();
+        StartCoroutine(FadeResize(t));
+    }
+
+    protected IEnumerator FadeResize(float newT)
+    {
+        var fadeTimer = 4f;
+
+        var currentT = transformRoom;
+
+        while (fadeTimer > 0)
+        {
+
+//            var t = Mathf.Lerp(currentT, newT, 1-fadeTimer);
+
+            transformRoom = Mathf.Lerp(currentT, newT, (4-(fadeTimer))/4f );
+
+            fadeTimer -= Time.deltaTime;
+
+            ResizeRoom();
+
+//            Debug.Log("resizing " + t);
+
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     protected void ResizeRoom()

@@ -8,14 +8,14 @@ public class Puzzle : MonoBehaviour {
 
 	float waitBeforeTryingToReset = 1f;
 	float waitBetweenResetChecks = 2f;
+	bool isPuzzleCompleted = false;
 
 	// Use this for initialization
 	public virtual void Start () 
 	{
-		GameObject room = GameObject.Find("PuzzleMaster");
-		Debug.Log("Room: "+room);
-		master = room.GetComponent<PuzzleMaster>();
-		Debug.Log("Master: "+master);
+		if (!master) {
+			Debug.Log("Puzzle is missing a master!! "+this);
+		}
 	}
 	
 	// Update is called once per frame
@@ -26,10 +26,11 @@ public class Puzzle : MonoBehaviour {
 	public virtual void CompletePuzzle()
 	{
 		master.PuzzleCompleted(this);
+		isPuzzleCompleted = true;
 	}
 
 	public virtual bool IsPuzzleComplete() {
-		return false;
+		return isPuzzleCompleted;
 	}
 	
 	public virtual bool IsResetable() {
