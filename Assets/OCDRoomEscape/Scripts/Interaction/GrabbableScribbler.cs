@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 public class GrabbableScribbler : GrabbableObject
 {
@@ -46,6 +48,7 @@ public class GrabbableScribbler : GrabbableObject
         {
             if (puzzle && holder)
             {
+                holder.FreeDropPosition(dropPosition);
                 puzzle.RemoveFromHolder(this);
             }
 
@@ -57,6 +60,15 @@ public class GrabbableScribbler : GrabbableObject
 
     protected ScribblerHolder holder;
 
+
+    protected static Vector3 RandomVector()
+    {
+        var v = new Vector3(Random.value - 0.5f, 0, Random.value - 0.5f);
+        return v.normalized;
+    }
+
+    protected ScribblerHolder.DropPosition dropPosition;
+
     public override bool OffInteract(GazePointer pointer, Transform objectToInteractWith)
     {
         if (objectToInteractWith)
@@ -66,6 +78,8 @@ public class GrabbableScribbler : GrabbableObject
             if (holder)
             {
                 holder.puzzle.PutInHolder(this, holder);
+
+                dropPosition = holder.GetFreeDropPosition();
             }
         }
         else
@@ -105,6 +119,9 @@ public class GrabbableScribbler : GrabbableObject
     {
         if (holder)
         {
+            if (dropPosition != null) return holder.dropPosition.position + dropPosition.offset;
+
+            Debug.Log("Drop Position is null");
             return holder.dropPosition.position;
         }
         else
@@ -112,7 +129,7 @@ public class GrabbableScribbler : GrabbableObject
             return lastPosition + Vector3.up * 0.2f;
         }
 
-        return base.GetMoveToNotGrabbedPosition() + Vector3.up * 0.5f;
+//        return base.GetMoveToNotGrabbedPosition() + Vector3.up * 0.5f;
     }
 
     protected override Vector3 GetMoveToNotGrabbedPosition()
