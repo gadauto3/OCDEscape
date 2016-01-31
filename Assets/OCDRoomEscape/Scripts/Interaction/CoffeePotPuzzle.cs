@@ -1,15 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CoffeePotPuzzle : MonoBehaviour {
-
+public class CoffeePotPuzzle : Puzzle 
+{
+	private bool isCoffeePotInMaker = false;
+	private bool hasCoffeePotGoneHome = false;
+	
 	// Use this for initialization
 	void Start () {
-	
+		
 	}
 	
-	// Update is called once per frame
 	void Update () {
-	
+		bool isCoffeePotNowInMaker = false;
+		if (isCoffeePotInMaker != isCoffeePotNowInMaker) {
+			isCoffeePotInMaker = isCoffeePotNowInMaker;
+			
+			if (!hasCoffeePotGoneHome) {
+				base.CompletePuzzle();
+			}
+			hasCoffeePotGoneHome = true;
+		}
 	}
 }
