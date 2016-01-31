@@ -9,12 +9,30 @@ public class InteractableObject : MonoBehaviour
 
     protected bool canInteract = true; // used to temporarily disable interaction. 
 
+    public bool startInteractionWithGameStart = false;
+
+    public float fadeInAudioTime = 4f;
+
+
     #region UnityMethods
     protected virtual void Awake()
     {
         highlightManager = GetComponent<HighlightManager>();
+
+        if(startInteractionWithGameStart) StartInteraction();
     }
     #endregion
+
+    public virtual void StartInteraction()
+    {
+    }
+
+//    protected IEnumerator FadeInAudio()
+//    {
+//
+//
+//        
+//    }
 
     public virtual void OnHighlight(GazePointer pointer)
     {

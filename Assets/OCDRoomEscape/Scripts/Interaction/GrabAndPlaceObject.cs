@@ -27,6 +27,14 @@ public class GrabAndPlaceObject : InteractableObject
     protected bool movingToPlacedPosition;
 
     protected Vector3 beforeMovePosition;
+    protected bool placed = false;
+
+
+    [Tooltip("This sound will play when the interaction starts")]
+    public AudioSource startAudioSource;
+
+    [Tooltip("This sound will play when the object is placed")]
+    public AudioSource placedSoundSource;
 
     protected override void Awake()
     {
@@ -35,6 +43,18 @@ public class GrabAndPlaceObject : InteractableObject
         initPosition = transform.position;
         initRotation = transform.rotation;
         initParent = transform.parent;
+    }
+
+    public override void StartInteraction()
+    {
+        base.StartInteraction();
+
+        if (startAudioSource)
+        {
+            startAudioSource.loop = true;
+            startAudioSource.Play();
+            placed = false;
+        }
     }
 
     public override bool OnInteract(GazePointer pointer)
@@ -47,6 +67,16 @@ public class GrabAndPlaceObject : InteractableObject
         placement = null;
 
         beforeMovePosition = transform.position;
+
+        if (placed)
+        {
+            if (startAudioSource && !startAudioSource.isPlaying)
+            {
+                startAudioSource.Play();
+            }
+
+            placed = false;
+        }
 
         StopAllCoroutines();
         StartCoroutine(MoveToAnchorPosition());
@@ -239,6 +269,22 @@ public class GrabAndPlaceObject : InteractableObject
             {
                 movingToPlacedPosition = false;
                 transform.position = targetPosition;
+
+                if (placement != null)
+                {
+                    if (startAudioSource)
+                    {
+                        startAudioSource.Stop();
+                    }
+
+                    if (placedSoundSource)
+                    {
+                        placedSoundSource.loop = false;
+                        placedSoundSource.Play();
+                    }
+                }
+
+                placed = true;
             }
             else
             {
