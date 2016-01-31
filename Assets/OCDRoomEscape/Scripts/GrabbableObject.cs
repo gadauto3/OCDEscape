@@ -43,6 +43,8 @@ public class GrabbableObject : InteractableObject
     protected bool moveToAnchor;
     protected bool moveToLastPosition;
 
+    protected Vector3 beforeMovePosition;
+
     protected override void Awake()
     {
         base.Awake();
@@ -80,7 +82,10 @@ public class GrabbableObject : InteractableObject
         this.pointer = pointer;
         this.gazeAnchor = pointer.Anchor;
 
-//        myRigidbody.isKinematic = false;
+        //        myRigidbody.isKinematic = false;
+
+        beforeMovePosition = transform.position;
+
 
         StopAllCoroutines();
         StartCoroutine(MoveToAnchorPosition());
