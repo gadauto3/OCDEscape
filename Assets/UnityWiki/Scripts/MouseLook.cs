@@ -36,7 +36,7 @@ public class MouseLook : MonoBehaviour
 
 #if UNITY_EDITOR_64
 
-    void FixedUpdate()
+    void LateUpdate()
     {
         if (axes == RotationAxes.MouseXAndY)
         {

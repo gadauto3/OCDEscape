@@ -39,7 +39,7 @@ public class OrganizeBySizePuzzle : MonoBehaviour
 
 		// When an object is placed, check if the puzzle is solved
 		bool isSolved = false;
-		if (sizedAndPlacedObjects.Count == allSizedObjects.Count) {
+		if (sizedAndPlacedObjects.Count == allSizedObjects.Count && sizedAndPlacedObjects.Count > 0) {
 			isSolved = true; // Flipped for the for loop
 			int previousSize = sizedAndPlacedObjects[0].size;
 			for (int i = 1; i < sizedAndPlacedObjects.Count; i++) {

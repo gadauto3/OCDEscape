@@ -117,9 +117,9 @@ public class WallManager : MonoBehaviour
 
             wall.transform.position = transform.position - wall.transform.forward * Mathf.Lerp(wallOffsetRange.x, wallOffsetRange.y, t);
 
-            var wallMeshPos = wall.mesh.localPosition;
-            wallMeshPos.y = height * 0.5f;
-            wall.mesh.localPosition = wallMeshPos;
+//            var wallMeshPos = wall.mesh.localPosition;
+//            // wallMeshPos.y = height * 0.5f;
+//            wall.mesh.localPosition = wallMeshPos;
 
             wall.mesh.localScale = scaler;
 
