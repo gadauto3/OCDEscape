@@ -14,6 +14,7 @@ public class GrabbableSizedObject : GrabbableObject
 	void Start () 
 	{
 		puzzle = GetComponentInParent<OrganizeBySizePuzzle>();
+		puzzle.AddSizedObject(this);
 	}
 	
 	// Update is called once per frame
@@ -45,10 +46,9 @@ public class GrabbableSizedObject : GrabbableObject
 		if (objectToInteractWith && objectToInteractWith != transform)
 		{
 			objectBelow = objectToInteractWith.GetComponent<GrabbableSizedObject>();
-			
+
 			if (objectBelow)
 			{
-				puzzle.AddSizedObject(this);
 				dropPosition = objectBelow.transform.position;
 			}
 		}
@@ -260,6 +260,9 @@ public class GrabbableSizedObject : GrabbableObject
                 myRigidbody.isKinematic = false;
 
                 trigger.SetActive(true);
+
+				// Now that we're done moving, notify the puzzle
+				puzzle.PlaceSizedObjectOnObject(this, objectBelow);
             }
             else
             {
