@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
@@ -22,9 +23,45 @@ public class WallManager : MonoBehaviour
     {
         public Transform transform;
         public Transform mesh;
+
+        public Transform[] moveWithRoom;
+
+        public WallTransformCache[] attachedObjects;
+    }
+
+    public class WallTransformCache
+    {
+        public Vector3 initLocalPos;
+        public Transform transform;
     }
 
     public Wall[] walls;
+
+    protected void Awake()
+    {
+
+        foreach (var wall in walls)
+        {
+            if (wall.transform == null || wall.mesh == null) continue;
+
+            wall.attachedObjects = new WallTransformCache[wall.moveWithRoom.Length];
+
+            for (var i = 0; i < wall.moveWithRoom.Length; i++)
+            {
+                var moveWithRoom = wall.moveWithRoom[i];
+
+                if(moveWithRoom == null) continue;
+
+                var attachedObject = new WallTransformCache();
+
+                attachedObject.transform = moveWithRoom;
+                attachedObject.initLocalPos = moveWithRoom.localPosition;
+
+                wall.attachedObjects[i] = attachedObject;
+                
+            }
+        }
+    }
 
 
     protected void Update()
@@ -38,6 +75,22 @@ public class WallManager : MonoBehaviour
             if(wall.transform == null || wall.mesh == null) continue;
 
             wall.transform.position = transform.position - wall.transform.forward*Mathf.Lerp(wallOffsetRange.x, wallOffsetRange.y, t);
+
+            var width = Mathf.Lerp(wallWidthRange.x, wallWidthRange.y, t);
+            var height = Mathf.Lerp(wallHeightRange.x, wallHeightRange.y, t);
+
+            var scaler = new Vector3(width, height, 1f);
+            wall.mesh.localScale = scaler;
+
+            if(wall.attachedObjects == null) continue;
+
+            foreach (var attachedObject in wall.attachedObjects)
+            {
+                if(attachedObject == null) continue;
+                if (attachedObject.transform == null) continue;
+
+                attachedObject.transform.localPosition = Vector3.Scale(attachedObject.initLocalPos, new Vector3(1 + t, 1, 1));
+            }
         }
     }
 }
