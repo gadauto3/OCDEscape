@@ -10,6 +10,8 @@ public class GrabbableScribbler : GrabbableObject
 
     protected ScribblerSortingPuzzle puzzle;
 
+    public AudioSource dropSound;
+
     public enum scribblerType
     {
         pen,
@@ -130,6 +132,17 @@ public class GrabbableScribbler : GrabbableObject
         }
 
 //        return base.GetMoveToNotGrabbedPosition() + Vector3.up * 0.5f;
+    }
+
+    protected override void OnObjectPutBack()
+    {
+        if (holder != null)
+        {
+            if (dropSound != null)
+            {
+                dropSound.Play();
+            }
+        }
     }
 
     protected override Vector3 GetMoveToNotGrabbedPosition()
