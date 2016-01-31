@@ -113,7 +113,7 @@ public class GrabbableObject : InteractableObject
 
     protected virtual Vector3 GetMoveToAnchorOffsetPosition()
     {
-        return anchor.position;
+        return gazeAnchor.position;
     }
 
     protected virtual Vector3 GetMoveToNotGrabbedOffsetPosition()
