@@ -84,9 +84,21 @@ public class WallManager : MonoBehaviour
             {
                 transformRoom += growStep;
                 growTimer = growTime;
+                ResizeRoom();
             }
         }
 
+
+    }
+
+    public void Resize(float t)
+    {
+        transformRoom = t;
+        ResizeRoom();
+    }
+
+    protected void ResizeRoom()
+    {
 
         var t = transformRoom;
 
@@ -99,28 +111,28 @@ public class WallManager : MonoBehaviour
         {
             var wall = walls[i];
 
-            if(wall.transform == null || wall.mesh == null) continue;
+            if (wall.transform == null || wall.mesh == null) continue;
 
-            wall.transform.position = transform.position - wall.transform.forward*Mathf.Lerp(wallOffsetRange.x, wallOffsetRange.y, t);
+            wall.transform.position = transform.position - wall.transform.forward * Mathf.Lerp(wallOffsetRange.x, wallOffsetRange.y, t);
 
             var wallMeshPos = wall.mesh.localPosition;
-            wallMeshPos.y = height*0.5f;
+            wallMeshPos.y = height * 0.5f;
             wall.mesh.localPosition = wallMeshPos;
 
             wall.mesh.localScale = scaler;
 
-            if(wall.attachedObjects == null) continue;
+            if (wall.attachedObjects == null) continue;
 
             foreach (var attachedObject in wall.attachedObjects)
             {
-                if(attachedObject == null) continue;
+                if (attachedObject == null) continue;
                 if (attachedObject.transform == null) continue;
 
                 attachedObject.transform.localPosition = Vector3.Scale(attachedObject.initLocalPos, new Vector3(1 + t, 1, 1));
             }
         }
 
-        ceiling.position = transform.position + Vector3.up*height;
+        ceiling.position = transform.position + Vector3.up * height;
 
         ceilingMesh.localScale = new Vector3(width, width, 1);
     }
