@@ -8,7 +8,7 @@ public class OrganizeBySizePuzzle : MonoBehaviour
 	List<GrabbableSizedObject> sizedAndPlacedObjects;
 
 	// Use this for initialization
-	void Start () 
+	void Awake () 
 	{
 		allSizedObjects = new List<GrabbableSizedObject>();
 		sizedAndPlacedObjects = new List<GrabbableSizedObject>();
@@ -29,21 +29,26 @@ public class OrganizeBySizePuzzle : MonoBehaviour
 		allSizedObjects.Add(sizedObject);
 	}
 	
-	public void PlaceSizedObject(GrabbableSizedObject sizedObject) 
+	public void PlaceSizedObjectOnObject(GrabbableSizedObject sizedObject, GrabbableSizedObject belowObject)
 	{
+		if (!sizedAndPlacedObjects.Contains(belowObject)) {
+			sizedAndPlacedObjects.Add(belowObject);
+			Debug.Log("Add sizedPlacedObj: "+belowObject);
+		}
 		sizedAndPlacedObjects.Add(sizedObject);
 
 		// When an object is placed, check if the puzzle is solved
 		bool isSolved = false;
 		if (sizedAndPlacedObjects.Count == allSizedObjects.Count) {
 			isSolved = true; // Flipped for the for loop
-			float previousSize = sizedAndPlacedObjects[0].Size;
+			int previousSize = sizedAndPlacedObjects[0].size;
 			for (int i = 1; i < sizedAndPlacedObjects.Count; i++) {
 				GrabbableSizedObject nextObject = sizedAndPlacedObjects[i];
-				if (nextObject.Size > previousSize) {
+				if (nextObject.size > previousSize) {
 					isSolved = false;
 					break;
 				}
+				previousSize = nextObject.size;
 			}
 		}
 

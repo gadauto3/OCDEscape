@@ -8,24 +8,19 @@ public class GrabbableSizedObject : GrabbableObject
 	Vector3 dropPosition;
 
     public GameObject trigger;
+	public int size = 1;
 
 
 	// Use this for initialization
 	void Start () 
 	{
 		puzzle = GetComponentInParent<OrganizeBySizePuzzle>();
+		puzzle.AddSizedObject(this);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
-	}
-
-	public float Size { 
-		get { 
-			BoxCollider collider = GetComponent<BoxCollider>();
-			return collider.size.x * collider.size.z;
-		} 
 	}
 
     public override bool OnInteract(GazePointer pointer)
@@ -45,10 +40,9 @@ public class GrabbableSizedObject : GrabbableObject
 		if (objectToInteractWith && objectToInteractWith != transform)
 		{
 			objectBelow = objectToInteractWith.GetComponent<GrabbableSizedObject>();
-			
+
 			if (objectBelow)
 			{
-				puzzle.AddSizedObject(this);
 				dropPosition = objectBelow.transform.position;
 			}
 		}
@@ -260,6 +254,9 @@ public class GrabbableSizedObject : GrabbableObject
                 myRigidbody.isKinematic = false;
 
                 trigger.SetActive(true);
+
+				// Now that we're done moving, notify the puzzle
+				puzzle.PlaceSizedObjectOnObject(this, objectBelow);
             }
             else
             {
