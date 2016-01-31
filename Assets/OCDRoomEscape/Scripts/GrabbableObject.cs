@@ -132,6 +132,11 @@ public class GrabbableObject : InteractableObject
         return lastRotation;
     }
 
+    protected virtual void OnObjectPutBack()
+    {
+        
+    }
+
     protected virtual IEnumerator MoveToAnchorPosition()
     {
         moveToAnchor = true;
@@ -277,6 +282,8 @@ public class GrabbableObject : InteractableObject
                 FreeJoint();
 
                 myRigidbody.drag = freeDrag;
+
+                OnObjectPutBack();
             }
             else
             {
