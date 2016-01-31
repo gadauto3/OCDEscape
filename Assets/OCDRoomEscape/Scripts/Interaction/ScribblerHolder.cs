@@ -12,9 +12,72 @@ public class ScribblerHolder : MonoBehaviour
 
     public float dropRadius = 0.05f;
 
-    public float dropAngle = 10f;
-	
-	public void AddScribbler(GrabbableScribbler scribbler)
+    public int dropPositionCount = 8;
+
+    public class DropPosition
+    {
+        public int index;
+        public bool inUse;
+        public Vector3 offset;
+    }
+
+    protected List<DropPosition> dropPositions = new List<DropPosition>();
+
+    public DropPosition GetFreeDropPosition()
+    {
+        foreach (var position in dropPositions)
+        {
+            if (!position.inUse)
+            {
+                position.inUse = true;
+                return position;
+            }
+        }
+
+        return null;
+    }
+
+    public void FreeDropPosition(DropPosition position)
+    {
+        if (position == null) return;
+
+        dropPositions[position.index].inUse = false;
+    }
+
+    protected void CreateDropPositions()
+    {
+        dropPositions = new List<DropPosition>();
+
+        var angleStep = 360f/dropPositionCount;
+
+        Debug.Log("AngleStep = " + angleStep);
+
+        var angle = 180f;
+
+        var startVector = -transform.forward * dropRadius;
+
+        startVector.y = 0;
+
+        for (var i = 0; i < dropPositionCount; i++)
+        {
+            var newDropPos = new DropPosition();
+
+            newDropPos.offset = Quaternion.AngleAxis(angle, Vector3.up) * startVector;
+            newDropPos.inUse = false;
+            newDropPos.index = i;
+
+            dropPositions.Add(newDropPos);
+
+            angle += angleStep;
+        }
+    }
+
+    protected void Awake()
+    {
+        CreateDropPositions();
+    }
+
+    public void AddScribbler(GrabbableScribbler scribbler)
 	{
 		scribblers.Add(scribbler);
 	}
