@@ -117,7 +117,6 @@ public class GrabbableScribbler : GrabbableObject
 
     protected override Vector3 GetMoveToNotGrabbedPosition()
     {
-
         if (holder)
         {
             return holder.transform.position;
