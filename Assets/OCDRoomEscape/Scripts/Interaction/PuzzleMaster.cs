@@ -50,12 +50,15 @@ public class PuzzleMaster : MonoBehaviour
 		Debug.Log("Finished puzzle: "+puzzle+", "+puzzles.Count+" left, room growing to: "+(wallMgr.transformRoom + growthIncrement));
 
 		if (wallMgr.transformRoom >= 1f) {
+			
+			StopAllCoroutines(); // Turn off sounds
 			isGameOver = true;
 			Debug.Log("GAME OVER!!!");
 		}
 	}
 
 	private void KickOffSoundForPuzzle(Puzzle puzzle) {
+		StopAllCoroutines();
 		AudioSource source = puzzle.SoundForPuzzle();
 
 		if (source) {
