@@ -51,6 +51,9 @@ public class PuzzleMaster : MonoBehaviour
 		// Remove the puzzle, but also allow it to remain in the list multiple times
 		puzzles.Remove(puzzle);
 		Debug.Log("Finished puzzle: "+puzzle+", "+puzzles.Count+" left, room growing to: "+(wallMgr.transformRoom + growthIncrement));
+		if (puzzles.Count == 1) {
+			Debug.Log("Final puzzle: "+puzzles[0]);
+		}
 
 		if (wallMgr.transformRoom >= 1f) {
 			
