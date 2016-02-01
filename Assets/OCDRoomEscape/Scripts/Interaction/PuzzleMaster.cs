@@ -38,7 +38,6 @@ public class PuzzleMaster : MonoBehaviour
 		var growthIncrement = puzzle.puzzleWeight / weightedIncrementTotal;
 		// TODO: Notify room of growth increment
 		wallMgr.Resize(wallMgr.transformRoom + growthIncrement);
-		Debug.Log("Puzzle completed: "+puzzle+", room grew to: "+wallMgr.transformRoom);
 
 		if (puzzle.IsResetable() && puzzles.Contains(puzzle)) {
 			Debug.Log("Puzzle marked for reset");
@@ -47,7 +46,7 @@ public class PuzzleMaster : MonoBehaviour
 
 		// Remove the puzzle, but also allow it to remain in the list multiple times
 		puzzles.Remove(puzzle);
-		Debug.Log("Finished puzzle: "+puzzle+", "+puzzles.Count+" left");
+		Debug.Log("Finished puzzle: "+puzzle+", "+puzzles.Count+" left, room growing to: "+(wallMgr.transformRoom + growthIncrement));
 
 		if (wallMgr.transformRoom >= 1f) {
 			isGameOver = true;
