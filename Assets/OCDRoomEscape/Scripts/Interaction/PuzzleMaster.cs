@@ -8,6 +8,7 @@ public class PuzzleMaster : MonoBehaviour
 	public WallManager wallMgr;
 	public List<Puzzle> puzzles;
 	public AudioSource puzzleWinSound;
+	public AudioSource endGameWinSound;
 	
 	float increment;
 	float weightedIncrementTotal;
@@ -55,8 +56,17 @@ public class PuzzleMaster : MonoBehaviour
 		if (wallMgr.transformRoom >= 1f) {
 			
 			StopAllCoroutines(); // Turn off sounds
+			if (puzzleWinSound) {
+				puzzleWinSound.Stop();
+			}
+
 			isGameOver = true;
 			Debug.Log("GAME OVER!!!");
+
+			AudioSource finalSource = GetComponentInParent<AudioSource>();
+			if (finalSource) {
+				finalSource.Play();
+			}
 		}
 	}
 
