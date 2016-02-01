@@ -8,7 +8,6 @@ public class PuzzleMaster : MonoBehaviour
 	public WallManager wallMgr;
 	public List<Puzzle> puzzles;
 	public AudioSource puzzleWinSound;
-	public AudioSource endGameWinSound;
 	
 	float increment;
 	float weightedIncrementTotal;
