@@ -34,7 +34,7 @@ public class MouseLook : MonoBehaviour
 
     Quaternion originalRotation;
 
-#if UNITY_EDITOR_64
+//#if UNITY_EDITOR_64
 
     void LateUpdate()
     {
@@ -86,5 +86,5 @@ public class MouseLook : MonoBehaviour
             angle -= 360F;
         return Mathf.Clamp(angle, min, max);
     }
-#endif
+//#endif
 }
