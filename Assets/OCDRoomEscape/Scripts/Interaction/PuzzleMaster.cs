@@ -36,8 +36,9 @@ public class PuzzleMaster : MonoBehaviour
 		}
 
 		var growthIncrement = puzzle.puzzleWeight / weightedIncrementTotal;
-		// TODO: Notify room of growth increment
+		// Notify room of growth increment
 		wallMgr.Resize(wallMgr.transformRoom + growthIncrement);
+		KickOffSoundForPuzzle(puzzle);
 
 		if (puzzle.IsResetable() && puzzles.Contains(puzzle)) {
 			Debug.Log("Puzzle marked for reset");
