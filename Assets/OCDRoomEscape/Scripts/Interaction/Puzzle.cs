@@ -45,6 +45,10 @@ public class Puzzle : MonoBehaviour {
 		
 	}
 
+	public AudioSource SoundForPuzzle() {
+		return GetComponent<AudioSource>();
+	}
+
 	private IEnumerator WaitForPlayerToLookAwayToReset()
 	{
 		yield return new WaitForSeconds(waitBeforeTryingToReset);
