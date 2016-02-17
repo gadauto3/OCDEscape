@@ -61,6 +61,7 @@ public class ScribblerSortingPuzzle : Puzzle
 
 		if (isPuzzleSolved) {
 			Debug.Log("Scribbler sorting puzzle is solved!");
+			CompletePuzzle();
 		}
 	}
 
