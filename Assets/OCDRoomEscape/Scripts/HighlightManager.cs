@@ -44,6 +44,13 @@ public class HighlightManager : MonoBehaviour
         }
     }
 
+	public void AdjustHighlightMaterial(Material newMaterial)
+	{
+		for (var i = 0; i < meshRenderers.Length; i++)
+		{
+			highlightInfos[i].highlightMaterials[highlightInfos[i].highlightMaterials.Length - 1] = newMaterial;
+		}
+	}
 
     public void OnHighlight()
     {

@@ -9,6 +9,7 @@ public class PuzzleMaster : MonoBehaviour
 	public List<Puzzle> puzzles;
 	public AudioSource puzzleWinSound;
 	public UIManager uiManager;
+	public Material highlightMaterial;  // This shouldn't probably be in this class
 	
 	float increment;
 	float weightedIncrementTotal;
@@ -17,9 +18,11 @@ public class PuzzleMaster : MonoBehaviour
 	// Use this for initialization
 	void Awake () 
 	{
+		string puzzleDesc = "Puzzles: ";
 		foreach (var puzzle in puzzles) {
-			Debug.Log("Puzzle added: "+puzzle);
-		}
+			puzzleDesc += puzzle.ToString() + ", ";
+		} 
+		Debug.Log(puzzleDesc);
 	}
 
 	void Start()
@@ -40,6 +43,7 @@ public class PuzzleMaster : MonoBehaviour
 		}
 
 		var growthIncrement = puzzle.puzzleWeight / weightedIncrementTotal;
+		growthIncrement *= 2;
 		// Notify room of growth increment
 		wallMgr.Resize(wallMgr.transformRoom + growthIncrement);
 		KickOffSoundForPuzzle(puzzle);
@@ -48,6 +52,8 @@ public class PuzzleMaster : MonoBehaviour
 			Debug.Log("Puzzle marked for reset");
 			puzzle.MarkForReset();
 		}
+
+		AdjustHighlightColor(puzzle);
 
 		// Remove the puzzle, but also allow it to remain in the list multiple times
 		puzzles.Remove(puzzle);
@@ -66,12 +72,21 @@ public class PuzzleMaster : MonoBehaviour
 			}
 
 			isGameOver = true;
-			uiManager.SetInstructionsForTime("Well done, you've brought order to chaos!", 5f);
+			uiManager.SetInstructionsForTime("Well done, you've brought order to chaos!", 15f);
 
 			AudioSource finalSource = GetComponentInParent<AudioSource>();
 			if (finalSource) {
 				finalSource.Play();
 			}
+		}
+	}
+
+	private void AdjustHighlightColor(Puzzle puzzle)
+	{
+		GameObject obj = puzzle.gameObject;
+		Component[] highlightMgrs = obj.GetComponentsInChildren<HighlightManager>();
+		foreach (HighlightManager highlighter in highlightMgrs) {
+			highlighter.AdjustHighlightMaterial(highlightMaterial);
 		}
 	}
 
